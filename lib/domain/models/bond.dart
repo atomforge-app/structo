@@ -52,6 +52,26 @@ final class Bond {
   /// Whether this bond connects the given atom.
   bool connects(String atomId) => atomId == atom1Id || atomId == atom2Id;
 
+  /// Converts this bond to a JSON-compatible map.
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'atom1Id': atom1Id,
+      'atom2Id': atom2Id,
+      'order': order.name,
+    };
+  }
+
+  /// Restores a [Bond] from a map produced by [toJson].
+  factory Bond.fromJson(Map<String, dynamic> json) {
+    return Bond(
+      id: json['id'] as String,
+      atom1Id: json['atom1Id'] as String,
+      atom2Id: json['atom2Id'] as String,
+      order: BondOrder.values.byName(json['order'] as String),
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     return other is Bond &&

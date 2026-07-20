@@ -50,11 +50,13 @@ final class CommandHistory {
     return _current;
   }
 
-  /// Replaces the current molecule without affecting undo/redo history.
+  /// Replaces the current molecule and clears the undo/redo history.
   ///
-  /// Intended for loading a document or resetting the editor. Callers that need
-  /// a clean history should create a new [CommandHistory] instead.
+  /// Intended for loading a document: the loaded molecule becomes the new
+  /// baseline, and there is nothing meaningful left to undo/redo back to.
   void reset(Molecule molecule) {
     _current = molecule;
+    _undoStack.clear();
+    _redoStack.clear();
   }
 }
